@@ -1,0 +1,105 @@
+c boolean canBalance(int[] nums) {
+int sum1 = 0, sum2 = 0;
+        int split = findSplit(nums);
+     
+
+        boolean result= findSplit(nums, split, split+1, 0);
+
+
+        return result;
+    }
+
+public int findSumOfLeft(int []nums, int left){
+        int sum1 = 0;
+        if(nums.length%2 == 0){
+
+            for (int i = 0; i < left; i++) {
+                sum1 = sum1 + nums[i];
+            }
+        }
+        else {
+            for (int i = 0; i <= left; i++) {
+                sum1 = sum1 + nums[i];
+            }
+
+        }
+        return sum1;
+
+    }
+
+    public int findSumOfRight(int [] nums, int left, int right){
+        int sum2 = 0;
+        if(nums.length%2 == 0){
+            for (int i=nums.length-1; i>left-1; i--){
+                sum2 = sum2 + nums[i];
+            }
+        }
+        else {
+            for (int i=nums.length-1; i>=right; i--){
+                sum2 = sum2 + nums[i];
+            }
+
+        }
+        return sum2;
+
+    }
+    public boolean findSplit(int []nums, int left, int right, int indicator){
+        int sum1 = 0, sum2 = 0;
+        sum1 = findSumOfLeft(nums, left);
+        sum2 = findSumOfRight(nums, left, right);
+        if(sum1 == sum2 ){
+            return true;
+        }
+
+        if(sum1<sum2){
+            if(right == nums.length ||  indicator == -1){
+                return false;
+            }
+            int newLeft = left+1;
+            int newRight = right+1;
+            if(takeAPeak(nums, newLeft, newRight, sum1, sum2)){
+                return false;
+            }
+            return findSplit(nums, newLeft, newRight, 1);
+        }
+        if(sum1>sum2){
+            if(left==0 || indicator == 1){
+                return false;
+            }
+            int newLeft = left-1;
+            int newRight = right-1;
+            if(takeAPeak(nums, newLeft, newRight, sum1, sum2)){
+                return false;
+            }
+            return findSplit(nums, newLeft, newRight, -1);
+        }
+
+        return false;
+    }
+
+    public boolean takeAPeak(int [] nums, int left, int right, int prevSum1, int prevSum2){
+        //if you move the cursor and the sums are the same as the previous ones
+        //return false immediately
+        //though this is kinda redundant
+        int sum1 = 0, sum2 = 0;
+        sum1 = findSumOfLeft(nums, left);
+        sum2 = findSumOfRight(nums, left, right);
+        if(sum2 == prevSum1 && sum1 == prevSum2 ){
+            return true;
+        }
+        return false;
+
+
+
+    }
+
+    public int findSplit(int [] nums){
+        if(nums.length == 0){
+            return 0;
+        }
+        int split = nums.length;
+        split = split/2;
+
+        return split;
+    }
+
