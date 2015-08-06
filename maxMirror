@@ -1,0 +1,30 @@
+public int maxMirror(int[] nums) {
+if(nums.length==1){
+return 1;
+}
+int count = 0;
+    int maxCount=0;
+    int middle = nums.length/2;
+    for(int i= 0 ; i<nums.length  ; i++){
+      for(int j = nums.length-1; j>0; j--){
+        int outer = i;
+        int inner = j;
+        while(nums[outer] == nums[inner]){
+          count ++;
+          outer++;
+          inner--;
+          if(outer>nums.length-1 || inner<0){
+            break;
+          }
+        }
+          if(count>maxCount){
+            maxCount = count;
+            count = 0;
+          }
+          else{
+            count = 0;
+          }
+      }
+    }
+    return maxCount;
+}
